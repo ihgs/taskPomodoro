@@ -1,4 +1,4 @@
-import { listData, recordData } from "./datasource"
+import { getData, listData, recordData } from "./datasource"
 import { Task } from "./db";
 
 const KEY = "tasks"
@@ -11,7 +11,12 @@ const create = async (data: Task) => {
     return await recordData(KEY,data)
 }
 
+const get = async (id: number) => {
+    return await getData(KEY, id)
+}
+
 export {
     list,
-    create
+    create,
+    get,
 }
