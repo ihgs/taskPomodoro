@@ -1,5 +1,5 @@
 import { AppBar, Box, Button, IconButton, List, ListItem, ListItemButton, ListItemText, Modal, TextField, Toolbar, Typography } from "@mui/material";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { Edit as EditIcon, Add as AddIcon } from "@mui/icons-material"
 import { useState } from "react";
 import { create, list } from "../lib/data/TaskRepository";
@@ -21,6 +21,8 @@ const modalStyle = {
 }
 
 export default function TaskList() {
+    const navigate = useNavigate()
+
     const [open, setOpen] = useState(false)
     const [title, setTitle] = useState("");
 
@@ -63,14 +65,14 @@ export default function TaskList() {
                             secondaryAction={
                                 <IconButton
                                     aria-label="edit"
-                                    onClick={() => { }}
+                                    onClick={() => {}}
                                 >
                                     <EditIcon></EditIcon>
                                 </IconButton>
                             }
                             disablePadding
                         >
-                            <ListItemButton role={undefined} onClick={() => { }} dense>
+                            <ListItemButton role={undefined} onClick={() =>{navigate(`/timer/${datum.id}`)}} dense>
 
                                 <ListItemText primary={datum.title} />
                             </ListItemButton>

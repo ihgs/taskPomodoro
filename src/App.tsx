@@ -14,7 +14,7 @@ function App() {
       loader: listTaskLoader
     },
     {
-      path: '/timer/',
+      path: '/timer/:id',
       element: <Timer />
     }
   ])

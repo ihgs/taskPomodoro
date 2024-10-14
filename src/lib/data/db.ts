@@ -21,10 +21,10 @@ export class MyRecordDexie extends Dexie {
     records!: Table<Record>;
 
     constructor(){
-        super('myRecord')
+        super('myTimer')
         this.version(version).stores({
-            tasks: '++id, title',
-            records: '++id, taskId, startTimestamp'
+            tasks: '++id',
+            records: '++id, taskId'
         })
     }
 
