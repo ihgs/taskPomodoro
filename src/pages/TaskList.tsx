@@ -2,13 +2,10 @@ import { AppBar, Box, Button, IconButton, List, ListItem, ListItemButton, ListIt
 import { useLoaderData } from "react-router-dom";
 import { Edit as EditIcon, Add as AddIcon } from "@mui/icons-material"
 import { useState } from "react";
+import { create, list } from "../lib/data/TaskRepository";
 
 export const listTaskLoader = async () => {
-    return [
-        { id: 0, title: "test" },
-        { id: 1, title: "test1" },
-        { id: 2, title: "test2" },
-    ]
+    return list()
 }
 
 const modalStyle = {
@@ -25,8 +22,19 @@ const modalStyle = {
 
 export default function TaskList() {
     const [open, setOpen] = useState(false)
+    const [title, setTitle] = useState("");
 
     const handleClose = () => {
+        setOpen(false)
+    }
+
+    const onClickSave = async () =>  {
+        if(title.length == 0){
+            alert("Input title")
+            return
+        }
+        await create({title})
+        setTitle('')
         setOpen(false)
     }
 
@@ -83,11 +91,13 @@ export default function TaskList() {
                         <TextField
                             required
                             label="Title"
+                            onChange={(e)=> {setTitle(e.target.value)}}
+                            value={title}
                         ></TextField>
                     </div>                    
                     <div>
                         <Button variant="outlined" sx={{marginY:2, }} onClick={()=>setOpen(false)}>Cancel</Button>
-                        <Button variant="contained" sx={{marginY:2, marginX: 1}}>Save</Button>
+                        <Button variant="contained" sx={{marginY:2, marginX: 1}} onClick={onClickSave} >Save</Button>
                     </div>
                 </Box>
             </Modal>
