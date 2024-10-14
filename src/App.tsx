@@ -4,8 +4,6 @@ import TaskList, { listTaskLoader } from './pages/TaskList'
 import { StyledEngineProvider } from '@mui/material'
 import Timer, { taskLoader } from './pages/Timer'
 
-export const APP_VERSION = "1.0.0"
-
 function App() {
   const router = createHashRouter([
     {

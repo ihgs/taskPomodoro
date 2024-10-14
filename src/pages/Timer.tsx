@@ -10,6 +10,8 @@ import { create } from "../lib/data/RecordRepository";
 import { get } from "../lib/data/TaskRepository";
 import { Task } from "../lib/data/db";
 import RecordList from "../componets/RecordList";
+import { APP_VERSION } from "../version";
+import { alarm } from "../lib/alerm";
 
 export const taskLoader = async ({ params }: { params: any }) => {
     return await get(parseInt(params.id))
@@ -53,15 +55,23 @@ export default function Timer() {
     }
 
     let timer: any = null;
+    let wakeLock: any = null;
     useEffect(() => {
         if (timeHandler) {
+            navigator.wakeLock.request("screen").then((target)=>{wakeLock=target})
             timer = setInterval(() => {
                 try {
                     setDisplayTimer(timeHandler.remain())
                 } catch {
                     clearInterval(timer)
+                    if(wakeLock){
+                        wakeLock.release().then(()=>{
+                            wakeLock = null
+                        })
+                    }
                     timer = null
                     setState("finished")
+                    alarm()
                     setDisplayTimer("00:00")
                     if (id) {
                         create({
@@ -78,6 +88,11 @@ export default function Timer() {
         if (timer) {
             clearInterval(timer)
             timer = null
+        }
+        if(wakeLock){
+            wakeLock.release().then(()=>{
+                wakeLock = null
+            })
         }
         navigate("/")
     }
@@ -137,6 +152,9 @@ export default function Timer() {
                         </Box>
                     </Toolbar>
                 </AppBar>
+            </Box>
+            <Box>
+                {APP_VERSION}
             </Box>
             <Box>
                 <Typography sx={{ margin: 10, fontSize: 80 }}>
