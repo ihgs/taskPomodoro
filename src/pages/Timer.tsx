@@ -123,9 +123,11 @@ export default function Timer() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
+                        {state != "tick" &&
                         <IconButton onClick={backTaskList}>
                             <ArrowBackIosIcon sx={{ color: "white" }}></ArrowBackIosIcon>
                         </IconButton>
+                        }
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                             {data.title}
                         </Typography>
