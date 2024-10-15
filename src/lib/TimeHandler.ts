@@ -1,3 +1,7 @@
+const zeroPadding = (target:number) =>{
+    return ('00' + target).slice(-2)
+}
+
 export class TimeHandler {
     startTimestamp: number
     endTimestamp: number
@@ -19,7 +23,7 @@ export class TimeHandler {
         if (intRemainSec < 0) {
             throw "finished"
         }
-        return `${Math.floor(intRemainSec / 60)}:${Math.floor(intRemainSec % 60)}`
+        return `${zeroPadding(Math.floor(intRemainSec / 60))}:${zeroPadding(Math.floor(intRemainSec % 60))}`
     }
 
     pause() {

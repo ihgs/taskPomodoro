@@ -29,6 +29,7 @@ const modalStyle = {
     p: 4,
 }
 
+let wakeLock: any = null;
 export default function Timer() {
     const navigate = useNavigate()
     const data = useLoaderData() as Task
@@ -55,10 +56,12 @@ export default function Timer() {
     }
 
     let timer: any = null;
-    let wakeLock: any = null;
     useEffect(() => {
         if (timeHandler) {
-            navigator.wakeLock.request("screen").then((target)=>{wakeLock=target})
+            navigator.wakeLock.request("screen").then((target)=>{
+                wakeLock=target
+                console.log("wakeLock:request")
+            })
             timer = setInterval(() => {
                 try {
                     setDisplayTimer(timeHandler.remain())
@@ -67,6 +70,7 @@ export default function Timer() {
                     if(wakeLock){
                         wakeLock.release().then(()=>{
                             wakeLock = null
+                            console.log("wakeLock:release")
                         })
                     }
                     timer = null
@@ -92,6 +96,8 @@ export default function Timer() {
         if(wakeLock){
             wakeLock.release().then(()=>{
                 wakeLock = null
+                console.log("wakeLock:release")
+
             })
         }
         navigate("/")
@@ -99,7 +105,7 @@ export default function Timer() {
     const renderButtons = () => {
         if (state == "tick") {
             return (
-                <IconButton onClick={() => { setState("paused"); timeHandler?.pause() }} >
+                <IconButton onClick={() => { setState("paused"); timeHandler?.pause(); }} >
                     <PauseCircleOutlineOutlinedIcon sx={{ fontSize: 80 }} />
                 </IconButton>
             )
