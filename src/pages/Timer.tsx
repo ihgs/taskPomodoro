@@ -52,6 +52,7 @@ export default function Timer() {
     }
 
     const showList = () => {
+        handleClose()
         setOpenList(true)
     }
 
@@ -180,7 +181,7 @@ export default function Timer() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle} component="form">
-                    <RecordList />
+                    <RecordList taskId={id} />
                 </Box>
             </Modal>
         </>

@@ -3,13 +3,25 @@ import { Record } from "../lib/data/db"
 import { list } from "../lib/data/RecordRepository"
 import { List, ListItem, ListItemText } from "@mui/material"
 
-export default function RecordList() {
+
+interface RecordListProps {
+    taskId: string | undefined
+}
+
+const disaplyTime = (timestamp: number): string => {
+    const d = new Date(timestamp)
+
+    return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${d.toLocaleTimeString()}`
+}
+export default function RecordList({taskId}:RecordListProps) {
     const [data, setData] = useState<Record[]>([])
 
     useEffect(() => {
-        list().then(records => {
-            setData(records)
-        })
+        if(taskId){
+            list(taskId).then(records => {
+                setData(records)
+            })    
+        }
 
     }, [])
     return (
@@ -20,7 +32,7 @@ export default function RecordList() {
                         key={value.id}
                         disableGutters
                     >
-                        <ListItemText primary={new Date(value.startTimestamp).toISOString()} />
+                        <ListItemText primary={disaplyTime(value.startTimestamp)} />
                     </ListItem>
                 ))}
             </List>
